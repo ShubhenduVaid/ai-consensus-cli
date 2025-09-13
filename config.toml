@@ -1,0 +1,43 @@
+[tools.q]
+name = "Amazon Q"
+command = "q"
+args = ["chat", "{prompt}"]
+description = "AWS AI assistant, great for cloud/infrastructure questions"
+
+[tools.gemini]
+name = "Google Gemini"
+command = "gemini"
+args = ["--prompt", "{prompt}"]
+description = "Strong general-purpose AI, good for coding and analysis"
+
+[tools.claude]
+name = "Anthropic Claude"
+command = "claude"
+args = ["--print", "{prompt}"]
+description = "Excellent for writing, reasoning, and complex tasks"
+
+[tools.openai]
+name = "OpenAI ChatGPT"
+command = "openai"
+args = ["api", "chat.completions.create", "-m", "gpt-3.5-turbo", "-g", "user", "{prompt}"]
+description = "Versatile AI, strong for creative and general tasks"
+
+[tools.ollama]
+name = "Local LLM"
+command = "ollama"
+args = ["run", "llama3.2:1b", "{prompt}"]
+description = "Privacy-focused, runs offline, good for sensitive data"
+
+# Example: Adding a new LLM (Mistral)
+[tools.mistral]
+name = "Mistral AI"
+command = "mistral"
+args = ["chat", "{prompt}"]
+description = "European AI model, strong multilingual support"
+
+# Example: Adding a custom local model
+[tools.codellama]
+name = "Code Llama"
+command = "ollama"
+args = ["run", "codellama:7b", "{prompt}"]
+description = "Specialized for code generation and programming tasks"

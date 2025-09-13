@@ -1,0 +1,28 @@
+[package]
+name = "ai-consensus-cli"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "ai_consensus_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ai-co"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+regex = "1.0"
+toml = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+lazy_static = "1.4"
+log = "0.4"
+env_logger = "0.10"
+thiserror = "1.0"
+shellwords = "1.1"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
