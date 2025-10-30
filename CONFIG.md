@@ -33,6 +33,15 @@ args = ["chat", "{prompt}"]
 description = "European AI model, strong multilingual support"
 ```
 
+### Adding OpenAI Codex
+```toml
+[tools.codex]
+name = "OpenAI Codex"
+command = "codex"
+args = ["exec", "{prompt}"]
+description = "Purpose-built for code generation and developer workflows"
+```
+
 ### Adding a Custom Ollama Model
 ```toml
 [tools.codellama]
@@ -82,6 +91,8 @@ Use a different config file:
 ```bash
 ai-co --config my-config.toml -s tool1,tool2 -c tool1 -p "question"
 ```
+
+You can also set the `AI_CONSENSUS_CONFIG` environment variable to point directly to a configuration file. When present, the CLI will load this file before checking standard locations.
 
 ## Benefits
 

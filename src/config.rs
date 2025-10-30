@@ -34,6 +34,10 @@ impl Config {
             config_path.to_string(),
         ];
         
+        if let Ok(override_path) = std::env::var("AI_CONSENSUS_CONFIG") {
+            paths_to_try.insert(0, override_path);
+        }
+        
         // Add binary location if different from config_path
         if let Ok(exe) = std::env::current_exe() {
             if let Some(parent) = exe.parent() {
