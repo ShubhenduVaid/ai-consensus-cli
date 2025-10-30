@@ -13,7 +13,7 @@ description = "Strong general-purpose AI, good for coding and analysis"
 [tools.claude]
 name = "Anthropic Claude"
 command = "claude"
-args = ["--print", "{prompt}"]
+args = ["-p", "{prompt}"]
 description = "Excellent for writing, reasoning, and complex tasks"
 
 [tools.openai]
