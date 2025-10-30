@@ -22,6 +22,7 @@ Before using the consensus CLI, install the AI tools you want to use:
 - **Amazon Q CLI** - [Installation Guide](https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-getting-started-installing.html)
 - **Google Gemini CLI** - [Installation Guide](https://github.com/google-gemini/gemini-cli)
 - **Anthropic Claude CLI** - [Installation Guide](https://docs.anthropic.com/en/docs/claude-code/setup#standard-installation)
+- **OpenAI Codex CLI** - [Installation Guide](https://github.com/openai/openai-python)
 - **Ollama** - [Installation Guide](https://ollama.ai/download)
 - **OpenAI CLI** - [Installation Guide](https://developers.openai.com/codex/cli/#set-up)
 
@@ -150,6 +151,7 @@ The CLI uses a TOML configuration file to define available AI tools. See [CONFIG
 - `gemini` - Google Gemini CLI - [Install Guide](https://ai.google.dev/gemini-api/docs/quickstart?lang=python)
 - `claude` - Anthropic Claude CLI - [Install Guide](https://github.com/anthropics/anthropic-cli)
 - `ollama` - Local LLM via Ollama - [Install Guide](https://ollama.ai/download)
+- `codex` - OpenAI Codex CLI - [Install Guide](https://developers.openai.com/codex/cli/#set-up)
 - `openai` - OpenAI ChatGPT CLI - [Install Guide](https://github.com/openai/openai-python)
 
 ## Requirements

@@ -52,6 +52,7 @@ mod tests {
     fn test_command_allowlist() {
         assert!(Validator::validate_command("q").is_ok());
         assert!(Validator::validate_command("gemini").is_ok());
+        assert!(Validator::validate_command("codex").is_ok());
         assert!(Validator::validate_command("malicious").is_err());
         assert!(Validator::validate_command("rm").is_err());
     }

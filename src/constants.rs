@@ -5,7 +5,7 @@ pub const CPU_LIMIT_SECS: u64 = 60;
 
 pub const ALLOWED_COMMANDS: &[&str] = &[
     "q", "gemini", "claude", "openai", "ollama", 
-    "mistral"
+    "codex", "mistral"
 ];
 
 pub const AUTH_ERROR_PATTERNS: &[&str] = &[

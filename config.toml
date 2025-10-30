@@ -22,6 +22,12 @@ command = "openai"
 args = ["api", "chat.completions.create", "-m", "gpt-3.5-turbo", "-g", "user", "{prompt}"]
 description = "Versatile AI, strong for creative and general tasks"
 
+[tools.codex]
+name = "OpenAI Codex"
+command = "codex"
+args = ["exec", "{prompt}"]
+description = "Purpose-built for code generation and developer workflows"
+
 [tools.ollama]
 name = "Local LLM"
 command = "ollama"

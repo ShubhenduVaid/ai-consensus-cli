@@ -1,32 +1,37 @@
-use std::process::Command;
+use std::process::{Command, Output};
 
 fn get_project_dir() -> &'static str {
     env!("CARGO_MANIFEST_DIR")
 }
 
+fn run_cli(args: &[&str]) -> Output {
+    Command::new("cargo")
+        .args(args)
+        .current_dir(get_project_dir())
+        .env(
+            "AI_CONSENSUS_CONFIG",
+            format!("{}/config.toml", get_project_dir()),
+        )
+        .output()
+        .expect("Failed to execute command")
+}
+
 #[test]
 fn test_cli_help() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "", "-c", "", "-p", ""])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "", "-c", "", "-p", ""]);
 
     assert!(output.status.success());
     let stdout = String::from_utf8_lossy(&output.stdout);
     assert!(stdout.contains("Available AI Tools:"));
     assert!(stdout.contains("Amazon Q: AWS AI assistant"));
     assert!(stdout.contains("Google Gemini: Strong general-purpose AI"));
+    assert!(stdout.contains("OpenAI Codex"));
     assert!(stdout.contains("Examples:"));
 }
 
 #[test]
 fn test_cli_missing_required_args() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "q"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "q"]);
 
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -35,11 +40,7 @@ fn test_cli_missing_required_args() {
 
 #[test]
 fn test_cli_invalid_solver() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "invalid-tool", "-c", "q", "-p", "test"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "invalid-tool", "-c", "q", "-p", "test"]);
 
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -48,11 +49,7 @@ fn test_cli_invalid_solver() {
 
 #[test]
 fn test_cli_invalid_consensus() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "q", "-c", "invalid-tool", "-p", "test"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "q", "-c", "invalid-tool", "-p", "test"]);
 
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -61,11 +58,7 @@ fn test_cli_invalid_consensus() {
 
 #[test]
 fn test_cli_multiple_solvers() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "q,gemini", "-c", "q", "-p", "What is 2+2?"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "q,gemini", "-c", "q", "-p", "What is 2+2?"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -79,11 +72,7 @@ fn test_cli_multiple_solvers() {
 
 #[test]
 fn test_cli_single_solver() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "What is 1+1?"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "What is 1+1?"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -94,11 +83,7 @@ fn test_cli_single_solver() {
 
 #[test]
 fn test_cli_unavailable_tools() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "mistral,codellama", "-c", "q", "-p", "test"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "mistral,codellama,codex", "-c", "q", "-p", "test"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -115,11 +100,7 @@ fn test_cli_unavailable_tools() {
 
 #[test]
 fn test_cli_status_indicators() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "q,ollama", "-c", "q", "-p", "Hello"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "q,ollama", "-c", "q", "-p", "Hello"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     
@@ -132,11 +113,7 @@ fn test_cli_status_indicators() {
 
 #[test]
 fn test_cli_consensus_phase() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "Say hello"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "Say hello"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     
@@ -146,11 +123,7 @@ fn test_cli_consensus_phase() {
 
 #[test]
 fn test_cli_output_format() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "What is the capital of France?"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "-s", "ollama", "-c", "ollama", "-p", "What is the capital of France?"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     
@@ -166,11 +139,7 @@ fn test_cli_output_format() {
 
 #[test]
 fn test_cli_config_file() {
-    let output = Command::new("cargo")
-        .args(&["run", "--", "--config", "config.toml", "-s", "q", "-c", "q", "-p", "test"])
-        .current_dir(get_project_dir())
-        .output()
-        .expect("Failed to execute command");
+    let output = run_cli(&["run", "--", "--config", "config.toml", "-s", "q", "-c", "q", "-p", "test"]);
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
